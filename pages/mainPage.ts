@@ -1,4 +1,9 @@
+import { Page, Locator } from "@playwright/test";
+
 export class MainPage{
+    page: Page;
+    cookieAcceptButton: Locator;
+    searchField: Locator;
 
     constructor(page){
         this.page = page;
