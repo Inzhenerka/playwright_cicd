@@ -1,6 +1,6 @@
 // @ts-check
-const { defineConfig, devices } = require('@playwright/test');
-
+import { defineConfig, devices } from '@playwright/test';
+import { testPlanFilter } from "allure-playwright/dist/testplan";
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -10,13 +10,11 @@ const { defineConfig, devices } = require('@playwright/test');
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
-module.exports = defineConfig({
+export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
-  reporter: [["line"], ['html']],
+
+  reporter: `./reporter/console.reporter.ts`,
   use: {
     trace: 'on',
   },
@@ -27,5 +25,7 @@ module.exports = defineConfig({
     }
   ],
 
+  grep: testPlanFilter(),
+  // reporter: [["html"], ["allure-playwright"]],
 });
 
