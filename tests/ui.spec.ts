@@ -1,25 +1,39 @@
 import { expect, test } from "@playwright/test";
 import { allure } from "allure-playwright";
-import { Severity } from "allure-js-commons";
 
 const url = "https://qa-stand-employees.inzhenerka.tech";
+const login  = "leonardo";
+const pass = "leads";
 
 test.describe("Тесты на создание компании", async () => {
-  test.beforeEach("Авторизоваться", async ({ page }) => {
-    await page.goto(url);
-    await page.locator("input[type=text]").fill("leonardo");
-    await page.locator("input[type=password]").fill("leads");
-    await page.locator("button[type=submit]").click();
-    await expect(page.locator("h6").first()).toContainText("👋 Привет, ");
+  
+  test.beforeEach("Before each", async ({ page }) => {
+    await allure.step("Авторизоваться на сайте", async () => {
+      await allure.step("Открыть страницу", async () => {
+        await page.goto(url);
+      });
+      await allure.step(`Ввести логин ${login}`, async () => {
+        await page.locator("input[type=text]").fill(login);
+      });
+      await allure.step(`Ввести пароль ${pass}`, async () => {
+        await page.locator("input[type=password]").fill(pass);
+      });
+      await allure.step("Нажать кнопку Войти", async () => {
+        await page.locator("button[type=submit]").click();
+        await allure.step("Дождаться приветственного сообщения", async () => {
+          await expect(page.locator("h6").first()).toContainText("👋 Привет, ");
+        });  
+      });
+    });
   });
 
   test(
     "Создание компании со всеми полями",
-    {
-      tag: "@Позитивный",
-      annotation: { type: "severity", description: "critical" },
-    },
     async ({ page }) => {
+      await allure.epic("Компании");
+      await allure.feature("Добавление компаний");
+      await allure.story("Позитивные тесты");
+
       await page.getByTestId("AddIcon").first().click();
       const form = page.getByRole("dialog");
       await expect(form).toBeVisible();
@@ -74,28 +88,8 @@ test.describe("Тесты на создание компании", async () => {
     }
   );
 });
-
 test.describe("Тесты на деактивацию", async () => {
-
   test.beforeEach("Авторизоваться", async ({ page }) => {
-    // await allure.description(
-    //   "This test attempts to log into the website using a login and a password. Fails if any error happens.\n\nNote that this test does not test 2-Factor Authentication.",
-    // );
-    // await allure.owner("John Doe");
-    // await allure.tags("NewUI", "Essentials", "Authentication");
-    // await allure.severity(Severity.CRITICAL);
-    // await allure.link("https://example.com/docs", "Related Documentation");
-    // await allure.issue("AUTH-123", "https://example.com/issues/AUTH-123");
-    // await allure.tms("TMS-456", "https://example.com/tms/TMS-456");
-    // await allure.label("package","com.example.web.essentials.authentication");
-
-    // await allure.step("Step 1", async () => {
-    //   // step without the body
-    //   await allure.logStep("Log step");
-    //   await allure.step("Sub-step 1", async () => {
-
-    //   });
-    // });
 
     await page.goto(url);
     await page.locator("input[type=text]").fill("leonardo");
@@ -124,3 +118,13 @@ test.describe("Тесты на деактивацию", async () => {
     }
   );
 });
+
+
+
+// await allure.step("Step 1", async () => {
+//   // step without the body
+//   await allure.logStep("Log step");
+//   await allure.step("Sub-step 1", async () => {
+
+//   });
+// });
