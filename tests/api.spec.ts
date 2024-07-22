@@ -20,12 +20,8 @@ test("Проверка заполнения полей", async ({request}) => {
     const todo = {
         "title": todoTitle
     }
-
     const response = await request.post( "https://todo-app-sky.herokuapp.com", {data: todo});
-    
     const body = await response.json();
-
-
 
     expect(body['completed']).toStrictEqual(false)
     expect(body['id']).toBeGreaterThan(0)
