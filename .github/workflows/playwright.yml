@@ -22,12 +22,6 @@ jobs:
 
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    
-    - name: Cache Gradle packages
-      uses: actions/cache@v3
-      with:
-        path: |
-          /home/runner/.cache/ms-playwright
 
     - name: Run Playwright tests
       run: npx playwright test
@@ -35,7 +29,6 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: playwright-report
-        path: playwright-report/index.html
-        if: 'overwrite'
+        path: playwright-report/
         overwrite: true
         retention-days: 30
