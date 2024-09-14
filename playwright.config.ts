@@ -4,7 +4,7 @@ import { testPlanFilter } from "allure-playwright/dist/testplan";
 
 export default defineConfig({
   grep: testPlanFilter(),
-  reporter: [["allure-playwright"]],
+  reporter: [["allure-playwright"], ["html"]],
   testDir: './tests',
   fullyParallel: true,
   use: {
