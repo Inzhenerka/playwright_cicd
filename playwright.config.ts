@@ -5,11 +5,10 @@ import { testPlanFilter } from "allure-playwright/dist/testplan";
 export default defineConfig({
   grep: testPlanFilter(),
   reporter: [["allure-playwright"]],
-  
   testDir: './tests',
   fullyParallel: true,
   use: {
-    trace: 'on',
+    trace: 'off',
   },
   projects: [
     {
