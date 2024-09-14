@@ -24,4 +24,5 @@ jobs:
         name: playwright-report
         path: playwright-report/
         if: always()
+        overwrite: true
         retention-days: 30
